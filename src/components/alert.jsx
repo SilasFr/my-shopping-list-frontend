@@ -1,5 +1,5 @@
 import { Alert as MUIAlert, Snackbar } from '@mui/material';
-import useAlert from '../../hooks/useAlert';
+import useAlert from '../hooks/useAlert';
 
 export default function Alert() {
   const { message, handleClose } = useAlert();
