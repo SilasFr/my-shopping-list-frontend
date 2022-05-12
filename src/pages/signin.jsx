@@ -9,10 +9,16 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import PasswordInput from '../components/formComponents';
+import useAlert from '../hooks/useAlert';
+import useAuth from '../hooks/useAuth';
+import api from '../services/api';
 
 export default function SignIn() {
+  const { setMessage } = useAlert();
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
@@ -23,6 +29,17 @@ export default function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
+
+    try {
+      const { data: response } = await api.signIn(formData);
+      console.log(response);
+      login(response);
+      navigate('home');
+    } catch (e) {
+      setMessage({ type: 'error', text: e.response });
+      console.log(e);
+      setIsLoading(false);
+    }
   }
 
   return (
