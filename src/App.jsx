@@ -13,7 +13,7 @@ function App() {
       <AlertProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/" element={<SignIn />} />
           </Routes>
         </BrowserRouter>
