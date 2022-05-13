@@ -1,15 +1,33 @@
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { SignpostOutlined } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import styled from 'styled-components';
 import Logo from '../assets/logo.png';
 import useAuth from '../hooks/useAuth';
+import { useState } from 'react';
 
-export default function Home({ children }) {
+export default function Home() {
   const navigate = useNavigate();
   const { token, logout } = useAuth();
 
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
   if (!token) {
     return <Navigate to={'/'} replace />;
+  }
+
+  function confirmLogout() {
+    setOpenDialog(true);
   }
 
   function handleLogout() {
@@ -21,8 +39,15 @@ export default function Home({ children }) {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        border: '5px solid red',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: '1',
+        top: '5px',
+        width: '100%',
+        maxWidth: '85%',
+        marginRight: '170px',
+        maxHeight: '80px',
       }}
     >
       <Box
@@ -30,14 +55,47 @@ export default function Home({ children }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '50px',
+          padding: '15px 20px 0 30px',
+          width: '100%',
         }}
       >
-        <img src={Logo} alt="shopping-cart" />
-        <SignpostOutlined sx={{ cursor: 'pointer' }} onClick={handleLogout} />
+        <LogoImg src={Logo} alt="shopping-cart" />
+        <SignpostOutlined sx={{ cursor: 'pointer' }} onClick={confirmLogout} />
+        <AlertDialog
+          open={openDialog}
+          handleClose={handleClose}
+          handleLogout={handleLogout}
+        />
       </Box>
       <Outlet />
-      {children}
     </Box>
   );
 }
+
+const LogoImg = styled.img`
+  width: 50px;
+`;
+
+const AlertDialog = ({ open, handleClose, handleLogout }) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{'Logout'}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Are you sure you want to logout?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleLogout}>Yes</Button>
+        <Button onClick={handleClose} autoFocus>
+          No
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

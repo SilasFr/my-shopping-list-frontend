@@ -6,6 +6,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+const DefaultTheme = localStorage.getItem('my-shopping-list-theme');
 
 function MyApp() {
   const theme = useTheme();
@@ -39,11 +40,15 @@ function MyApp() {
 }
 
 export default function ToggleColorMode({ children }) {
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = React.useState(DefaultTheme || 'dark');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode) => {
+          const result = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('my-shopping-list-theme', result);
+          return result;
+        });
       },
     }),
     []

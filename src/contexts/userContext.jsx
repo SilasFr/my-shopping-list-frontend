@@ -2,7 +2,7 @@ import { createContext, useState } from 'react';
 
 export const UserContext = createContext();
 
-const LOCAL_STORAGE_KEY = 'my-sopping-list-token';
+const LOCAL_STORAGE_KEY = 'my-shopping-list-token';
 const persistedToken = localStorage.getItem(LOCAL_STORAGE_KEY);
 
 export default function UserProvider({ children }) {

@@ -32,12 +32,10 @@ export default function SignIn() {
 
     try {
       const { data: response } = await api.signIn(formData);
-      console.log(response);
       login(response);
       navigate('home');
     } catch (e) {
-      setMessage({ type: 'error', text: e.response });
-      console.log(e);
+      setMessage({ type: 'error', text: e.response.data });
       setIsLoading(false);
     }
   }
