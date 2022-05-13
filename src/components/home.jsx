@@ -39,15 +39,17 @@ export default function Home() {
     <Box
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
         position: 'absolute',
         zIndex: '1',
         top: '5px',
         width: '100%',
+        padding: '15px 20px 0 20px',
         maxWidth: '85%',
-        marginRight: '170px',
         maxHeight: '80px',
+        border: '1px solid green',
       }}
     >
       <Box
@@ -55,8 +57,8 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '15px 20px 0 30px',
           width: '100%',
+          margin: '0 0 50px 10px',
         }}
       >
         <LogoImg src={Logo} alt="shopping-cart" />
