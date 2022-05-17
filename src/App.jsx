@@ -6,6 +6,7 @@ import ToggleColorMode from './components/themeComponent';
 import { AlertProvider } from './contexts/alertContext';
 import UserProvider from './contexts/userContext';
 import Feed from './pages/feed';
+import RenderList from './pages/renderList';
 import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<SignIn />} />
               <Route path="home" element={<Home />}>
                 <Route path="/home/" element={<Feed />} />
+                <Route path="/home/list/:id" element={<RenderList />} />
               </Route>
             </Routes>
           </BrowserRouter>

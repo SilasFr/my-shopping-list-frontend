@@ -18,14 +18,25 @@ async function signIn(signInData) {
 
 async function validateToken(token) {
   const config = await createConfig(token);
-  console.log(config);
   return await baseApi.post('/users/validate', {}, config);
+}
+
+async function getLists(token) {
+  const config = await createConfig(token);
+  return await baseApi.get('/lists', config);
+}
+
+async function getTemplate(token) {
+  const config = await createConfig(token);
+  return await baseApi.get('/lists/template', config);
 }
 
 const api = {
   signUp,
   signIn,
   validateToken,
+  getLists,
+  getTemplate,
 };
 
 export default api;

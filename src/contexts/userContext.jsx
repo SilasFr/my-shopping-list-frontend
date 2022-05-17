@@ -7,6 +7,7 @@ const LOCAL_STORAGE_KEY = 'my-shopping-list-token';
 export default function UserProvider({ children }) {
   const persistedToken = localStorage.getItem(LOCAL_STORAGE_KEY);
   const [token, setToken] = useState(persistedToken);
+  const [userData, setUserData] = useState(null);
 
   function login(token) {
     setToken(token);
@@ -19,7 +20,9 @@ export default function UserProvider({ children }) {
   }
 
   return (
-    <UserContext.Provider value={{ token, login, logout }}>
+    <UserContext.Provider
+      value={{ token, login, logout, userData, setUserData }}
+    >
       {children}
     </UserContext.Provider>
   );

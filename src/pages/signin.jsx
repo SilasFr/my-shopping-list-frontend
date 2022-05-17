@@ -17,7 +17,7 @@ import api from '../services/api';
 
 export default function SignIn() {
   const { setMessage } = useAlert();
-  const { login, logout, token } = useAuth();
+  const { login, logout, token, setUserData } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -29,6 +29,8 @@ export default function SignIn() {
       api
         .validateToken(token)
         .then((response) => {
+          console.log(response.data);
+          setUserData(response.data);
           navigate('/home');
         })
         .catch((error) => {

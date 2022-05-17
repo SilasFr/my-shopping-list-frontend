@@ -1,8 +1,34 @@
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
-
-const example = ['lista1', 'lista2', 'lista3', 'lista4', 'lista5'];
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import api from '../services/api';
+import RenderList from './renderList';
 
 export default function Feed() {
+  const [isTemplate, setIsTemplate] = useState(false);
+  const [lists, setLists] = useState([]);
+  const { token, userData, setUserData } = useAuth();
+
+  useEffect(() => {
+    async function loadLists() {
+      try {
+        const response = await api.getLists(token);
+        if (!response.data || response.data.length === 0) {
+          const { data: template } = await api.getTemplate(token);
+          setIsTemplate(true);
+          setUserData({ ...userData, lists: [template] });
+          setLists([template]);
+        } else {
+          setLists([...response.data]);
+          setUserData({ ...userData, lists: [response.data] });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    loadLists();
+  }, [token]);
   return (
     <Container sx={{ width: '100%', border: '1px solid red' }}>
       <Typography sx={{ margin: '0 0 5px 0' }}>
@@ -10,8 +36,15 @@ export default function Feed() {
       </Typography>
       <Box sx={styles.container}>
         <Stack spacing={2}>
-          {example.map((list) => {
-            return <Paper sx={styles.item}>list</Paper>;
+          {lists.map((element) => {
+            console.log(element);
+            return (
+              <Link to={`/home/list/${element._id}`} key={element._id}>
+                <Paper key={element._id} sx={styles.item}>
+                  {isTemplate ? 'Template' : 'List'}
+                </Paper>
+              </Link>
+            );
           })}
         </Stack>
       </Box>
