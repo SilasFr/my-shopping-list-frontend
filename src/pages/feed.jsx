@@ -1,15 +1,6 @@
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 
-const example = [
-  'lista1',
-  'lista2',
-  'lista3',
-  'lista4',
-  'lista5',
-  'lista6',
-  'lista7',
-  'lista8',
-];
+const example = ['lista1', 'lista2', 'lista3', 'lista4', 'lista5'];
 
 export default function Feed() {
   return (

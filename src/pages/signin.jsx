@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import PasswordInput from '../components/formComponents';
 import useAlert from '../hooks/useAlert';
@@ -17,10 +17,28 @@ import api from '../services/api';
 
 export default function SignIn() {
   const { setMessage } = useAlert();
-  const { login } = useAuth();
+  const { login, logout, token } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    if (token !== null) {
+      console.log('useEffect');
+
+      api
+        .validateToken(token)
+        .then((response) => {
+          navigate('/home');
+        })
+        .catch((error) => {
+          console.log('erro');
+          console.log(error.response.data);
+          setMessage({ type: 'error', text: error.response.data.message });
+          logout();
+        });
+    }
+  }, []);
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
