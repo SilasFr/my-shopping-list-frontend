@@ -5,6 +5,7 @@ import Home from './components/home';
 import ToggleColorMode from './components/themeComponent';
 import { AlertProvider } from './contexts/alertContext';
 import UserProvider from './contexts/userContext';
+import CreateList from './pages/createList';
 import Feed from './pages/feed';
 import RenderList from './pages/renderList';
 import SignIn from './pages/signin';
@@ -12,9 +13,9 @@ import SignUp from './pages/signup';
 
 function App() {
   return (
-    <ToggleColorMode>
-      <CssBaseline />
-      <UserProvider>
+    <UserProvider>
+      <ToggleColorMode>
+        <CssBaseline />
         <AlertProvider>
           <BrowserRouter>
             <Routes>
@@ -23,13 +24,14 @@ function App() {
               <Route path="home" element={<Home />}>
                 <Route path="/home/" element={<Feed />} />
                 <Route path="/home/list/:id" element={<RenderList />} />
+                <Route path="/home/list/create" element={<CreateList />} />
               </Route>
             </Routes>
           </BrowserRouter>
           <Alert />
         </AlertProvider>
-      </UserProvider>
-    </ToggleColorMode>
+      </ToggleColorMode>
+    </UserProvider>
   );
 }
 

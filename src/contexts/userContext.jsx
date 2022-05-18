@@ -8,6 +8,7 @@ export default function UserProvider({ children }) {
   const persistedToken = localStorage.getItem(LOCAL_STORAGE_KEY);
   const [token, setToken] = useState(persistedToken);
   const [userData, setUserData] = useState(null);
+  const [lists, setLists] = useState([]);
 
   function login(token) {
     setToken(token);
@@ -21,7 +22,7 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider
-      value={{ token, login, logout, userData, setUserData }}
+      value={{ token, login, logout, userData, setUserData, lists, setLists }}
     >
       {children}
     </UserContext.Provider>

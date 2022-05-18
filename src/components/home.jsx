@@ -36,31 +36,8 @@ export default function Home() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'absolute',
-        zIndex: '1',
-        top: '5px',
-        width: '100%',
-        padding: '15px 20px 0 20px',
-        maxWidth: '85%',
-        maxHeight: '80px',
-        border: '1px solid green',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-          margin: '0 0 50px 10px',
-        }}
-      >
+    <Box sx={styles.container}>
+      <Box sx={styles.secondaryContainer}>
         <LogoImg src={Logo} alt="shopping-cart" />
         <SignpostOutlined sx={{ cursor: 'pointer' }} onClick={confirmLogout} />
         <AlertDialog
@@ -100,4 +77,27 @@ const AlertDialog = ({ open, handleClose, handleLogout }) => {
       </DialogActions>
     </Dialog>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: '1',
+    top: '5px',
+    width: '100%',
+    padding: '15px 20px 0 20px',
+    maxWidth: '85%',
+    maxHeight: '80px',
+  },
+  secondaryContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    margin: '0 0 50px 10px',
+  },
 };

@@ -7,26 +7,42 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Paper,
-  Stack,
   Typography,
 } from '@mui/material';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import NumbersIcon from '@mui/icons-material/Numbers';
-import { useParams } from 'react-router-dom';
+import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Box } from '@mui/system';
+import { useEffect, useState } from 'react';
 
 export default function RenderList() {
   const { id } = useParams();
-  const { userData } = useAuth();
-  const list = userData.lists.find((list) => list._id === id);
+  const { lists } = useAuth();
+  const [list, setList] = useState();
+  const navigate = useNavigate();
 
-  console.log(list);
+  useEffect(() => {
+    setList(lists.find((list) => list._id === id));
+  }, []);
+
+  if (!list) {
+    return (
+      <Box>
+        {' '}
+        <Typography>Carregando</Typography>{' '}
+      </Box>
+    );
+  }
 
   return (
     <Container>
-      <List spacing={1}>
+      <Box onClick={() => navigate(-1)}>
+        <ArrowBackIosNewRoundedIcon sx={{ cursor: 'pointer' }} />
+      </Box>
+      <List>
         {list.list.map((item) => {
           const labelId = `checkbox-list-label-${item.product}`;
           return (
@@ -37,30 +53,9 @@ export default function RenderList() {
                 <IconButton
                   edge="end"
                   aria-label="price"
-                  sx={{ display: 'flex', gap: '8px' }}
+                  sx={styles.inputContainer}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      border: '1px solid',
-                      borderRadius: '5px',
-                      padding: '1px 4px',
-                    }}
-                  >
-                    <Typography>{item.qty}</Typography>
-                    <NumbersIcon sx={{ fontSize: '1' }} />
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      border: '1px solid',
-                      borderRadius: '5px',
-                      padding: '1px 4px',
-                    }}
-                  >
-                    <Typography>{item.price}</Typography>
-                    <PriceChangeIcon sx={{ fontSize: '1' }} />
-                  </Box>
+                  <ModeEditOutlineTwoToneIcon />
                 </IconButton>
               }
             >
@@ -74,6 +69,16 @@ export default function RenderList() {
                 </ListItemIcon>
 
                 <ListItemText id={labelId} primary={item.product} />
+                <ListItemIcon sx={styles.inputContainer}>
+                  <Box sx={styles.input}>
+                    <NumbersIcon sx={styles.inputIcon} />
+                    <Typography>{item.qty}</Typography>
+                  </Box>
+                  <Box sx={styles.input}>
+                    <PriceChangeIcon sx={styles.inputIcon} />
+                    <Typography>{item.price}</Typography>
+                  </Box>
+                </ListItemIcon>
               </ListItemButton>
             </ListItem>
           );
@@ -82,3 +87,19 @@ export default function RenderList() {
     </Container>
   );
 }
+
+const styles = {
+  inputContainer: {
+    display: 'flex',
+    gap: '8px',
+  },
+  input: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2px',
+    border: '1px solid',
+    borderRadius: '5px',
+    padding: '1px 4px',
+  },
+  inputIcon: { fontSize: '85%', margin: 'auto 0' },
+};

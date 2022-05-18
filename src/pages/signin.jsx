@@ -24,18 +24,13 @@ export default function SignIn() {
 
   useEffect(() => {
     if (token !== null) {
-      console.log('useEffect');
-
       api
         .validateToken(token)
         .then((response) => {
-          console.log(response.data);
           setUserData(response.data);
           navigate('/home');
         })
         .catch((error) => {
-          console.log('erro');
-          console.log(error.response.data);
           setMessage({ type: 'error', text: error.response.data.message });
           logout();
         });

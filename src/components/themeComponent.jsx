@@ -4,11 +4,14 @@ import Box from '@mui/material/Box';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Home from './home';
+import useAuth from '../hooks/useAuth';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 const DefaultTheme = localStorage.getItem('my-shopping-list-theme');
 
 function MyApp() {
+  const { userData } = useAuth();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
   return (
