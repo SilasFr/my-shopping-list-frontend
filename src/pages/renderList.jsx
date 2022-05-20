@@ -36,14 +36,13 @@ export default function RenderList() {
       </Box>
     );
   }
-
   return (
     <Container>
       <Box onClick={() => navigate(-1)}>
         <ArrowBackIosNewRoundedIcon sx={{ cursor: 'pointer' }} />
       </Box>
       <List>
-        {list.list.map((item) => {
+        {list.items.map((item) => {
           const labelId = `checkbox-list-label-${item.product}`;
           return (
             <ListItem

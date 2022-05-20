@@ -48,8 +48,6 @@ export default function Feed() {
   if (!userData) {
     return <Typography>Carregando</Typography>;
   }
-  console.log(userData);
-  console.log(lists);
   return (
     <Container sx={{ width: '100%', height: '100%', position: 'relative' }}>
       <Typography sx={{ margin: '0 0 15px 0' }}>
@@ -69,7 +67,14 @@ export default function Feed() {
         </Stack>
       </Box>
       <Box sx={styles.fabStyle}>
-        <Fab size="medium" aria-label="add" color="primary">
+        <Fab
+          size="medium"
+          aria-label="add"
+          color="primary"
+          onClick={() => {
+            navigate('/home/list/create');
+          }}
+        >
           <AddIcon color="default" />
         </Fab>
       </Box>

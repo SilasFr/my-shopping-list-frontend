@@ -6,6 +6,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+
 import DialogTitle from '@mui/material/DialogTitle';
 import styled from 'styled-components';
 import Logo from '../assets/logo.png';
@@ -38,6 +40,11 @@ export default function Home() {
   return (
     <Box sx={styles.container}>
       <Box sx={styles.secondaryContainer}>
+        <ArrowBackIosNewRoundedIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate(-1)}
+        />
+
         <LogoImg src={Logo} alt="shopping-cart" />
         <SignpostOutlined sx={{ cursor: 'pointer' }} onClick={confirmLogout} />
         <AlertDialog
@@ -53,6 +60,7 @@ export default function Home() {
 
 const LogoImg = styled.img`
   width: 50px;
+  align-self: center;
 `;
 
 const AlertDialog = ({ open, handleClose, handleLogout }) => {
