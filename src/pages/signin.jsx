@@ -50,7 +50,7 @@ export default function SignIn() {
       login(response);
       navigate('home');
     } catch (e) {
-      setMessage({ type: 'error', text: e.response.data });
+      setMessage({ type: 'error', text: 'erro' });
       setIsLoading(false);
     }
   }

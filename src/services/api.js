@@ -26,6 +26,16 @@ async function getLists(token) {
   return await baseApi.get('/lists', config);
 }
 
+async function createList(token, list) {
+  const config = await createConfig(token);
+  return await baseApi.post('/lists', list, config);
+}
+
+async function deleteList(token, listId) {
+  const config = await createConfig(token);
+  return await baseApi.delete(`/lists/${listId}`, config);
+}
+
 async function getTemplate(token) {
   const config = await createConfig(token);
   return await baseApi.get('/lists/template', config);
@@ -36,6 +46,8 @@ const api = {
   signIn,
   validateToken,
   getLists,
+  createList,
+  deleteList,
   getTemplate,
 };
 

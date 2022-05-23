@@ -1,27 +1,68 @@
 import { AddCircleOutlined } from '@mui/icons-material';
-import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 
 import {
   Box,
+  Button,
   Container,
-  InputAdornment,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import generateId from '../services/keyGen';
+import inputMask from '../components/inputMasks';
+import api from '../services/api';
+import useAuth from '../hooks/useAuth';
 
 export default function CreateList() {
+  const { token } = useAuth();
   const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [listFrequency, setListFrequency] = useState('');
+
   const [list, setList] = useState([]);
   const [item, setItem] = useState({
     product: '',
-    price: undefined,
-    qty: undefined,
+    price: '',
+    qty: '',
     category: 'groceries',
   });
+
+  useEffect(() => {
+    setItem({
+      product: '',
+      price: '',
+      qty: '',
+      category: 'groceries',
+    });
+  }, [list]);
+
+  function handleClose() {
+    setOpenDialog(false);
+  }
+
+  async function handleSave() {
+    try {
+      await api.createList(token, {
+        items: list,
+        frequency: listFrequency,
+      });
+      setOpenDialog(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   function handleChange(e) {
     setItem({ ...item, [e.target.name]: e.target.value });
@@ -34,18 +75,39 @@ export default function CreateList() {
     }
     setList([...list, item]);
   }
+
+  function handleCreateList() {
+    setOpenDialog(true);
+  }
+
+  function keyGen() {
+    return generateId();
+  }
   return (
     <Container>
       <Box
-        sx={{ display: 'flex', justifyContent: 'space-between' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          position: 'relative',
+        }}
         onClick={() => navigate(-1)}
       >
-        <Typography variant="h5" sx={{ margin: '0 0 15px 0' }}>
+        <Typography variant="h6" sx={{ margin: '0 0 15px 0' }}>
           Create your own list
         </Typography>
+        <Button
+          sx={styles.submitButton}
+          variant="contained"
+          disabled={list.length < 1}
+          onClick={handleCreateList}
+          onMouseDown={handleCreateList}
+        >
+          create
+        </Button>
       </Box>
       <Box>
-        <Stack>
+        <Stack spacing={1}>
           <Box sx={styles.inputContainer}>
             <TextField
               sx={styles.textInput}
@@ -58,8 +120,17 @@ export default function CreateList() {
               required
             ></TextField>
             <TextField
-              sx={styles.numberInput}
-              InputProps={{ inputProps: { min: 1, type: 'number' } }}
+              sx={styles.priceInput}
+              InputProps={{
+                inputProps: {
+                  min: 1,
+                  type: 'number',
+                  onKeyUp: (e) => {
+                    return inputMask.currency(e);
+                  },
+                },
+                prefix: '$',
+              }}
               name="price"
               label="price"
               onChange={handleChange}
@@ -88,17 +159,79 @@ export default function CreateList() {
             />
           </Box>
           {list.map((item) => (
-            <Paper sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Paper
+              key={keyGen()}
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+            >
               <Typography sx={{ width: '60%' }}>{item.product}</Typography>
               <Typography>{item.price}</Typography>
               <Typography>{item.qty}</Typography>
             </Paper>
           ))}
         </Stack>
+        <AlertDialog
+          open={openDialog}
+          handleClose={handleClose}
+          list={list}
+          frequency={listFrequency}
+          setFrequency={setListFrequency}
+          handleSave={handleSave}
+        />
       </Box>
     </Container>
   );
 }
+
+const AlertDialog = ({
+  open,
+  handleClose,
+  frequency,
+  setFrequency,
+  handleSave,
+}) => {
+  function handleChange(e) {
+    setFrequency(e.target.value);
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Frequency</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          How often will you buy these items?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Box sx={{ width: '100%' }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={frequency}
+              label="Age"
+              onChange={handleChange}
+            >
+              <MenuItem value={'weekly'}>weekly</MenuItem>
+              <MenuItem value={'monthly'}>monthly</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Button onClick={handleSave} autoFocus>
+          Save
+        </Button>
+        <Button onClick={handleClose} autoFocus>
+          Cancel
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 const styles = {
   inputContainer: {
@@ -107,12 +240,21 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    margin: '0 0 15px 0',
   },
   textInput: {
-    width: '60%',
+    width: '55%',
   },
   numberInput: {
     width: '15%',
+  },
+  priceInput: {
+    width: '25%',
+  },
+  submitButton: {
+    width: '40px',
+    position: 'absolute',
+    right: '-30px',
   },
   addIcon: {
     position: 'absolute',

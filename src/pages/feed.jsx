@@ -51,7 +51,7 @@ export default function Feed() {
   return (
     <Container sx={{ width: '100%', height: '100%', position: 'relative' }}>
       <Typography sx={{ margin: '0 0 15px 0' }}>
-        Bem vindo, {userData.name}
+        Welcome, {userData.name}
       </Typography>
       <Box sx={styles.container}>
         <Stack spacing={2}>
@@ -59,7 +59,7 @@ export default function Feed() {
             return (
               <Link to={`/home/list/${element._id}`} key={element._id}>
                 <Paper key={element._id} sx={styles.item}>
-                  {isTemplate ? 'Template' : 'List'}
+                  {isTemplate ? 'Template' : `${element.frequency} list`}
                 </Paper>
               </Link>
             );

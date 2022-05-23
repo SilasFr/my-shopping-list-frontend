@@ -1,7 +1,16 @@
 import {
+  Button,
   Checkbox,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+  FormControl,
   IconButton,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
@@ -12,17 +21,38 @@ import {
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
-import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
+import api from '../services/api';
 
 export default function RenderList() {
   const { id } = useParams();
-  const { lists } = useAuth();
+  const { lists, token } = useAuth();
   const [list, setList] = useState();
+  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
+
+  function handleOpen() {
+    setOpenDialog(true);
+  }
+
+  function handleClose() {
+    setOpenDialog(false);
+  }
+
+  async function handleDelete() {
+    try {
+      await api.deleteList(token, id);
+      navigate('/home');
+    } catch (e) {
+      console.log(e);
+    }
+
+    setOpenDialog(false);
+  }
 
   useEffect(() => {
     setList(lists.find((list) => list._id === id));
@@ -37,10 +67,7 @@ export default function RenderList() {
     );
   }
   return (
-    <Container>
-      <Box onClick={() => navigate(-1)}>
-        <ArrowBackIosNewRoundedIcon sx={{ cursor: 'pointer' }} />
-      </Box>
+    <Container sx={{ position: 'relative', height: '100vh' }}>
       <List>
         {list.items.map((item) => {
           const labelId = `checkbox-list-label-${item.product}`;
@@ -83,9 +110,54 @@ export default function RenderList() {
           );
         })}
       </List>
+      <Fab
+        sx={{
+          position: 'absolute',
+          right: '-50px',
+          bottom: '0',
+        }}
+        size="medium"
+        aria-label="add"
+        color="error"
+        onClick={handleOpen}
+        onMouseDown={handleOpen}
+      >
+        <DeleteOutlineOutlinedIcon />
+      </Fab>
+      <AlertDialog
+        open={openDialog}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+      />
     </Container>
   );
 }
+
+const AlertDialog = ({ open, handleClose, handleDelete }) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Delete list</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Are you sure you want do delete this lists?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleDelete} autoFocus>
+          Yes
+        </Button>
+        <Button onClick={handleClose} autoFocus>
+          No
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 const styles = {
   inputContainer: {

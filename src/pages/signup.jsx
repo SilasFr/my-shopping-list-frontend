@@ -47,7 +47,7 @@ export default function SignUp() {
     } catch (e) {
       setIsLoading(false);
       console.error(e);
-      setMessage({ type: 'error', text: e.response?.data });
+      setMessage({ type: 'error', text: 'erro' });
     }
   }
   return (
