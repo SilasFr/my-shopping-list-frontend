@@ -59,6 +59,7 @@ export default function CreateList() {
         frequency: listFrequency,
       });
       setOpenDialog(false);
+      navigate('/home');
     } catch (e) {
       console.log(e);
     }
