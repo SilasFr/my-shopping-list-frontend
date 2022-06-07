@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseApi = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://my-shopping-list-sylas.herokuapp.com/',
 });
 
 async function createConfig(token) {
