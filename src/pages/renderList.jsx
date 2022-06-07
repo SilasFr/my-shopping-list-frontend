@@ -8,16 +8,13 @@ import {
   DialogContentText,
   DialogTitle,
   Fab,
-  FormControl,
   IconButton,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
-  useScrollTrigger,
 } from '@mui/material';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import NumbersIcon from '@mui/icons-material/Numbers';
@@ -28,7 +25,6 @@ import useAuth from '../hooks/useAuth';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import ScrollComponent from '../components/scrollToTop';
 
 export default function RenderList() {
   const { id } = useParams();
@@ -58,13 +54,21 @@ export default function RenderList() {
 
   useEffect(() => {
     setList(lists.find((list) => list._id === id));
-  }, []);
+  }, [id, lists]);
 
   if (!list) {
     return (
-      <Box>
-        {' '}
-        <Typography>Carregando</Typography>{' '}
+      <Box
+        sx={{
+          width: '100%',
+          height: '100vh',
+          mt: 10,
+          display: 'flex',
+          alignItems: 'start',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="h4">Carregando...</Typography>
       </Box>
     );
   }
@@ -112,7 +116,6 @@ export default function RenderList() {
           );
         })}
       </List>
-      {/* <ScrollComponent trigger={trigger} /> */}
       <Fab
         sx={{
           position: 'fixed',
