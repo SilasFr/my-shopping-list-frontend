@@ -17,6 +17,7 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  useScrollTrigger,
 } from '@mui/material';
 import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import NumbersIcon from '@mui/icons-material/Numbers';
@@ -27,6 +28,7 @@ import useAuth from '../hooks/useAuth';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import ScrollComponent from '../components/scrollToTop';
 
 export default function RenderList() {
   const { id } = useParams();
@@ -73,7 +75,7 @@ export default function RenderList() {
           const labelId = `checkbox-list-label-${item.product}`;
           return (
             <ListItem
-              ket={labelId}
+              key={labelId}
               disablePadding
               secondaryAction={
                 <IconButton
@@ -110,13 +112,14 @@ export default function RenderList() {
           );
         })}
       </List>
+      {/* <ScrollComponent trigger={trigger} /> */}
       <Fab
         sx={{
-          position: 'absolute',
-          right: '-50px',
-          bottom: '0',
+          position: 'fixed',
+          right: '10px',
+          bottom: '10px',
         }}
-        size="medium"
+        size="small"
         aria-label="add"
         color="error"
         onClick={handleOpen}

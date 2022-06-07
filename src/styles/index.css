@@ -13,6 +13,8 @@
 body,
 html {
   height: 100%;
+  max-width: 375px;
+  margin: 0 auto;
 }
 
 code {

@@ -93,12 +93,8 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'absolute',
-    zIndex: '1',
-    top: '5px',
     width: '100%',
     padding: '15px 20px 0 20px',
-    maxWidth: '85%',
     maxHeight: '80px',
   },
   secondaryContainer: {

@@ -91,11 +91,12 @@ export default function CreateList() {
           display: 'flex',
           justifyContent: 'space-between',
           position: 'relative',
+          mt: '20px',
         }}
         onClick={() => navigate(-1)}
       >
-        <Typography variant="h6" sx={{ margin: '0 0 15px 0' }}>
-          Create your own list
+        <Typography variant="h5" sx={{ margin: '0 0 15px 0' }}>
+          <strong>Create your own list</strong>
         </Typography>
         <Button
           sx={styles.submitButton}
@@ -255,12 +256,13 @@ const styles = {
   submitButton: {
     width: '40px',
     position: 'absolute',
-    right: '-30px',
+    top: '5px',
+    right: '10px',
   },
   addIcon: {
     position: 'absolute',
-    top: '35%',
-    right: '-50px',
+    bottom: '-40px',
+    right: '5px',
     cursor: 'pointer',
   },
 };
