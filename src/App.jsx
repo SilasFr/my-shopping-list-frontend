@@ -1,7 +1,6 @@
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Alert from './components/alert';
-import Home from './components/home';
 import ToggleColorMode from './components/themeComponent';
 import MenuAppBar from './components/topBar';
 import { AlertProvider } from './contexts/alertContext';

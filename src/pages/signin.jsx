@@ -71,7 +71,7 @@ export default function SignIn() {
   return (
     <Container
       sx={{
-        margin: '60px auto 0 auto',
+        margin: '0 auto',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -115,7 +115,7 @@ export default function SignIn() {
           >
             sign in
           </Button>
-          <Typography>OR</Typography>
+          <Typography sx={{ mt: 5 }}>OR</Typography>
           <Divider />
           <Box sx={{ display: 'none', flexDirection: 'column', gap: '5px' }}>
             <GoogleButton
@@ -167,7 +167,7 @@ const styles = {
     flexDirection: 'column',
     textAlign: 'center',
     gap: '10px',
-    marginBottom: '20px',
+    margin: '60px 0 20px 0',
   },
   input: {
     marginBottom: '18px',

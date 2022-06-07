@@ -10,11 +10,19 @@
   text-decoration: none;
 }
 
+html {
+  background-color: dimgrey;
+}
+
 body,
 html {
   height: 100%;
   max-width: 375px;
   margin: 0 auto;
+}
+
+#root {
+  position: relative;
 }
 
 code {

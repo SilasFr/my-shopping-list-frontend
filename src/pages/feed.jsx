@@ -49,7 +49,7 @@ export default function Feed() {
     return <Typography>Carregando</Typography>;
   }
   return (
-    <Container sx={{ width: '100%', height: '100%', position: 'relative' }}>
+    <Container sx={{ width: '100%', height: '87vh' }}>
       <Typography variant="h5" sx={{ margin: '20px 0 15px 0' }}>
         <strong>Welcome, {userData.name}</strong>
       </Typography>
@@ -98,8 +98,8 @@ const styles = {
     justifyContent: 'center',
   },
   fabStyle: {
-    position: 'fixed',
-    bottom: '20px',
+    position: 'absolute',
+    bottom: '0',
     right: '10px',
   },
 };
