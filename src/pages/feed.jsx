@@ -49,16 +49,16 @@ export default function Feed() {
     return <Typography>Carregando</Typography>;
   }
   return (
-    <Container sx={{ width: '100%', height: '100%', position: 'relative' }}>
-      <Typography sx={{ margin: '0 0 15px 0' }}>
-        Welcome, {userData.name}
+    <Container sx={{ width: '100%', height: '87vh' }}>
+      <Typography variant="h5" sx={{ margin: '20px 0 15px 0' }}>
+        <strong>Welcome, {userData.name}</strong>
       </Typography>
       <Box sx={styles.container}>
         <Stack spacing={2}>
           {lists.map((element) => {
             return (
               <Link to={`/home/list/${element._id}`} key={element._id}>
-                <Paper key={element._id} sx={styles.item}>
+                <Paper key={element._id} elevation={16} sx={styles.item}>
                   {isTemplate ? 'Template' : `${element.frequency} list`}
                 </Paper>
               </Link>
@@ -98,8 +98,8 @@ const styles = {
     justifyContent: 'center',
   },
   fabStyle: {
-    position: 'fixed',
-    bottom: '20px',
+    position: 'absolute',
+    bottom: '0',
     right: '10px',
   },
 };

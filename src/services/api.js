@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseApi = axios.create({
-  baseURL: 'http://ec2-3-83-159-240.compute-1.amazonaws.com',
+  baseURL: 'http://localhost:5000',
 });
 
 async function createConfig(token) {

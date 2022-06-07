@@ -53,7 +53,7 @@ export default function SignUp() {
   return (
     <Container
       sx={{
-        margin: '60px auto 0 auto',
+        margin: '0 auto ',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -138,7 +138,7 @@ const styles = {
     flexDirection: 'column',
     textAlign: 'center',
     gap: '10px',
-    marginBottom: '20px',
+    margin: '60px 0 20px 0',
   },
   input: {
     marginBottom: '18px',

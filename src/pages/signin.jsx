@@ -14,6 +14,10 @@ import PasswordInput from '../components/formComponents';
 import useAlert from '../hooks/useAlert';
 import useAuth from '../hooks/useAuth';
 import api from '../services/api';
+import styled from 'styled-components';
+import Google from '../assets/icons/google.png';
+import Facebook from '../assets/icons/facebook.png';
+import Github from '../assets/icons/github.png';
 
 export default function SignIn() {
   const { setMessage } = useAlert();
@@ -21,6 +25,11 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    async function getUser() {}
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (token !== null) {
@@ -36,6 +45,10 @@ export default function SignIn() {
         });
     }
   }, []);
+
+  const googleOAuth = () => {
+    window.open('http://localhost:5000/auth/google', '_self');
+  };
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,7 +71,7 @@ export default function SignIn() {
   return (
     <Container
       sx={{
-        margin: '60px auto 0 auto',
+        margin: '0 auto',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -102,6 +115,37 @@ export default function SignIn() {
           >
             sign in
           </Button>
+          <Typography sx={{ mt: 5 }}>OR</Typography>
+          <Divider />
+          <Box sx={{ display: 'none', flexDirection: 'column', gap: '5px' }}>
+            <GoogleButton
+              color="error"
+              variant="contained"
+              onClick={googleOAuth}
+            >
+              <img src={Google} href="#" alt="Sign up with google" />
+              <Typography>Google</Typography>
+            </GoogleButton>
+
+            <FacebookButton
+              color="info"
+              variant="contained"
+              onClick={() => alert('Em breve!')}
+            >
+              <img src={Facebook} href="#" alt="Sign up with facebook" />
+              <Typography>Facebook</Typography>
+            </FacebookButton>
+
+            <GithubButton
+              color="secondary"
+              variant="contained"
+              onClick={() => alert('Em breve!')}
+            >
+              <img src={Github} href="#" alt="Sign up with github" />
+              <Typography>GitHub</Typography>
+            </GithubButton>
+          </Box>
+
           <Link component={RouterLink} to="/sign-up" sx={{ marginTop: '20px' }}>
             <Typography>Create a new account</Typography>
           </Link>
@@ -123,10 +167,34 @@ const styles = {
     flexDirection: 'column',
     textAlign: 'center',
     gap: '10px',
-    marginBottom: '20px',
+    margin: '60px 0 20px 0',
   },
   input: {
     marginBottom: '18px',
   },
   actionsContainer: {},
 };
+
+const GoogleButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  background-color: red;
+  text-transform: none;
+`;
+
+const FacebookButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  background-color: blue;
+  text-transform: none;
+`;
+
+const GithubButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  background-color: #572557;
+  text-transform: none;
+`;

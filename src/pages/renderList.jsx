@@ -8,9 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   Fab,
-  FormControl,
   IconButton,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
@@ -56,13 +54,21 @@ export default function RenderList() {
 
   useEffect(() => {
     setList(lists.find((list) => list._id === id));
-  }, []);
+  }, [id, lists]);
 
   if (!list) {
     return (
-      <Box>
-        {' '}
-        <Typography>Carregando</Typography>{' '}
+      <Box
+        sx={{
+          width: '100%',
+          height: '100vh',
+          mt: 10,
+          display: 'flex',
+          alignItems: 'start',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="h4">Carregando...</Typography>
       </Box>
     );
   }
@@ -73,7 +79,7 @@ export default function RenderList() {
           const labelId = `checkbox-list-label-${item.product}`;
           return (
             <ListItem
-              ket={labelId}
+              key={labelId}
               disablePadding
               secondaryAction={
                 <IconButton
@@ -112,11 +118,11 @@ export default function RenderList() {
       </List>
       <Fab
         sx={{
-          position: 'absolute',
-          right: '-50px',
-          bottom: '0',
+          position: 'fixed',
+          right: '10px',
+          bottom: '10px',
         }}
-        size="medium"
+        size="small"
         aria-label="add"
         color="error"
         onClick={handleOpen}
